@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Big Bun TV - Menu Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --yellow: #FFCC00;
+  --red:    #D42222;
+  --bg:     #0E0E0E;
+  --text:   #F2EEE6;
+  --muted:  #7A7672;
+  --gap:    2px;
+}
+
+html, body {
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+}
+
+.tv {
+  width: 100vw;
+  height: 56.25vw;
+  max-height: 100vh;
+  max-width: 177.78vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* SLIDE SYSTEM */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.slide.entering {
+  animation: slideEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  pointer-events: auto;
+}
+.slide.active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.slide.exiting {
+  animation: slideExit 0.45s cubic-bezier(0.55, 0, 0.78, 0) forwards;
+  pointer-events: none;
+}
+
+@keyframes slideEnter {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideExit {
+  from { transform: translateX(0);     opacity: 1; }
+  to   { transform: translateX(-100%); opacity: 0; }
+}
+
+/* HEADER */
+.slide-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3% 5%;
+  border-bottom: var(--gap) solid var(--yellow);
+  background: var(--bg);
+}
+
+.brand-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5vw;
+  line-height: 0.9;
+  color: var(--text);
+  letter-spacing: 0.03em;
+}
+.brand-name em { color: var(--yellow); font-style: normal; }
+
+.cat-badge {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+.cat-line { width: 4vw; height: 2px; background: var(--red); }
+.cat-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.2vw;
+  color: var(--red);
+  letter-spacing: 0.14em;
+}
+
+/* GRID LAYOUT */
+.items-grid {
+  flex: 1;
+  display: grid;
+  gap: var(--gap);
+  background: #000;
+  overflow: hidden;
+}
+
+.items-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.items-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.items-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.items-grid.rows-1 { grid-template-rows: 1fr; }
+.items-grid.rows-2 { grid-template-rows: repeat(2, 1fr); }
+
+/* ITEM CARD */
+.item-card {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: scale(0.92) translateY(20px);
+}
+
+.slide.active .item-card, .slide.entering .item-card {
+  animation: cardPop 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.slide.active .item-card:nth-child(1), .slide.entering .item-card:nth-child(1) { animation-delay: 0.15s; }
+.slide.active .item-card:nth-child(2), .slide.entering .item-card:nth-child(2) { animation-delay: 0.22s; }
+.slide.active .item-card:nth-child(3), .slide.entering .item-card:nth-child(3) { animation-delay: 0.29s; }
+.slide.active .item-card:nth-child(4), .slide.entering .item-card:nth-child(4) { animation-delay: 0.36s; }
+.slide.active .item-card:nth-child(5), .slide.entering .item-card:nth-child(5) { animation-delay: 0.43s; }
+.slide.active .item-card:nth-child(6), .slide.entering .item-card:nth-child(6) { animation-delay: 0.50s; }
+
+@keyframes cardPop {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.item-image {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide.active .item-image img, .slide.entering .item-image img {
+  transform: scale(1.08);
+  transition: transform 12s ease-out;
+}
+
+.item-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7));
+  pointer-events: none;
+}
+
+.item-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.2vw 1.5vw 1.3vw;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 70%, transparent);
+  z-index: 2;
+}
+
+.item-name {
+  font-size: 1.8vw;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 0.3vw;
+}
+
+.item-desc {
+  font-size: 0.95vw;
+  color: var(--muted);
+  line-height: 1.3;
+  margin-bottom: 0.5vw;
+}
+
+.item-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4vw;
+  color: var(--yellow);
+  line-height: 1;
+}
+
+.item-price sup {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1vw;
+  font-weight: 400;
+  color: var(--muted);
+  vertical-align: super;
+  margin-right: 0.1vw;
+}
+
+/* FOOTER */
+.slide-footer {
+  padding: 1.8vw 5%;
+  background: var(--bg);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2vw;
+}
+
+.tagline {
+  font-size: 1.1vw;
+  color: var(--muted);
+  font-style: italic;
+  flex: 1;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  font-size: 1vw;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.6vw 1.4vw;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 4px;
+  background: var(--yellow);
+  width: 0;
+  z-index: 50;
+}
+
+/* CATEGORY FLASH */
+.cat-flash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--red);
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+}
+.cat-flash.show {
+  animation: flashIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.cat-flash-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17vw;
+  color: #fff;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-align: center;
+  padding: 0 5%;
+}
+@keyframes flashIn {
+  0%   { opacity: 0; transform: scale(1.15); }
+  18%  { opacity: 1; transform: scale(1);    }
+  72%  { opacity: 1; transform: scale(1);    }
+  100% { opacity: 0; transform: scale(0.92); }
+}
+</style>
+</head>
+<body>
+<div class="tv">
+
+  <div class="cat-flash" id="catFlash">
+    <div class="cat-flash-text" id="catFlashText"></div>
+  </div>
+
+  <div class="slide active" data-time="9000" data-cat="Hot Drinks">
+    <div class="slide-header">
+      <div class="brand-name">The <em>Big</em> Bun</div>
+      <div class="cat-badge">
+        <div class="cat-line"></div>
+        <div class="cat-label">Hot Drinks</div>
+      </div>
+    </div>
+    <div class="items-grid cols-3 rows-1">
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1594631252845-29fc4586d517?w=900&q=80" alt="Masala Tea">
+          <div class="item-info">
+            <div class="item-name">Masala Tea</div>
+            <div class="item-desc">Spiced chai, warming & bold</div>
+            <div class="item-price"><sup>₹</sup>18</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1544006659-f0b21884cb1d?w=900&q=80" alt="Tea">
+          <div class="item-info">
+            <div class="item-name">Tea</div>
+            <div class="item-desc">Classic light brew</div>
+            <div class="item-price"><sup>₹</sup>15</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=80" alt="Coffee">
+          <div class="item-info">
+            <div class="item-name">Coffee</div>
+            <div class="item-desc">Rich & freshly brewed</div>
+            <div class="item-price"><sup>₹</sup>20</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="tagline">Every great day begins with a perfect cup.</div>
+    </div>
+  </div>
+
+  <div class="slide" data-time="11000" data-cat="Cold Drinks">
+    <div class="slide-header">
+      <div class="brand-name">The <em>Big</em> Bun</div>
+      <div class="cat-badge">
+        <div class="cat-line"></div>
+        <div class="cat-label">Cold Drinks</div>
+      </div>
+    </div>
+    <div class="items-grid cols-4 rows-1">
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=900&q=80" alt="Mint Mojito">
+          <div class="item-info">
+            <div class="item-name">Mint Mojito</div>
+            <div class="item-desc">Fresh mint, lime & soda</div>
+            <div class="item-price"><sup>₹</sup>45</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1615485290382-441e4d0c9cb5?w=900&q=80" alt="Beetroot Bliz">
+          <div class="item-info">
+            <div class="item-name">Beetroot Bliz</div>
+            <div class="item-desc">Refreshing & natural</div>
+            <div class="item-price"><sup>₹</sup>45</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=900&q=80" alt="Cold Coffee">
+          <div class="item-info">
+            <div class="item-name">Cold Coffee</div>
+            <div class="item-desc">Chilled, creamy coffee blend</div>
+            <div class="item-price"><sup>₹</sup>60</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=900&q=80" alt="Chocolate Frappe">
+          <div class="item-info">
+            <div class="item-name">Chocolate Frappe</div>
+            <div class="item-desc">Rich chocolate frozen delight</div>
+            <div class="item-price"><sup>₹</sup>90</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="tagline">Freshly prepared to order · No preservatives</div>
+    </div>
+  </div>
+
+  <div class="slide" data-time="10000" data-cat="Burgers">
+    <div class="slide-header">
+      <div class="brand-name">The <em>Big</em> Bun</div>
+      <div class="cat-badge">
+        <div class="cat-line"></div>
+        <div class="cat-label">Burgers</div>
+      </div>
+    </div>
+    <div class="items-grid cols-2 rows-1">
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1520072959219-c595dc870360?w=900&q=80" alt="Veg Classic Burger">
+          <div class="item-info">
+            <div class="item-name">Veg Classic Burger</div>
+            <div class="item-desc">Crispy patty, fresh veggies, signature sauce</div>
+            <div class="item-price"><sup>₹</sup>45</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&q=80" alt="Veg Big Classic">
+          <div class="item-info">
+            <div class="item-name">Veg Big Classic</div>
+            <div class="item-desc">Our classic, supersized — double the satisfaction</div>
+            <div class="item-price"><sup>₹</sup>60</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="tagline">We never use palm oil in our products.</div>
+      <div class="badge">Add a Cheese Slice for just ₹12!</div>
+    </div>
+  </div>
+
+  <div class="slide" data-time="11000" data-cat="Sides">
+    <div class="slide-header">
+      <div class="brand-name">The <em>Big</em> Bun</div>
+      <div class="cat-badge">
+        <div class="cat-line"></div>
+        <div class="cat-label">Sides</div>
+      </div>
+    </div>
+    <div class="items-grid cols-4 rows-1">
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=900&q=80" alt="Salted French Fries">
+          <div class="item-info">
+            <div class="item-name">Salted French Fries</div>
+            <div class="item-desc">Classic crispy & golden</div>
+            <div class="item-price"><sup>₹</sup>35</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1598679253544-2c97992403ea?w=900&q=80" alt="Peri Peri Fries">
+          <div class="item-info">
+            <div class="item-name">Peri Peri Fries</div>
+            <div class="item-desc">Spiced with bold peri peri</div>
+            <div class="item-price"><sup>₹</sup>40</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?w=900&q=80" alt="Belgian Fries">
+          <div class="item-info">
+            <div class="item-name">Belgian Fries</div>
+            <div class="item-desc">Thicker cut, Belgian style</div>
+            <div class="item-price"><sup>₹</sup>45</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1610614819513-58e34989848b?w=900&q=80" alt="Cheese Slice">
+          <div class="item-info">
+            <div class="item-name">Cheese Slice</div>
+            <div class="item-desc">Add to any burger to elevate</div>
+            <div class="item-price"><sup>₹</sup>12</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="tagline">Perfect pair: add any cold beverage for the ultimate combo!</div>
+    </div>
+  </div>
+
+  <div class="slide" data-time="10000" data-cat="Maggi">
+    <div class="slide-header">
+      <div class="brand-name">The <em>Big</em> Bun</div>
+      <div class="cat-badge">
+        <div class="cat-line"></div>
+        <div class="cat-label">Maggi</div>
+      </div>
+    </div>
+    <div class="items-grid cols-3 rows-1">
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1626804475297-4160f5e9aef7?w=900&q=80" alt="Plain Maggi">
+          <div class="item-info">
+            <div class="item-name">Plain Maggi</div>
+            <div class="item-desc">Classic, dry & masala-rich</div>
+            <div class="item-price"><sup>₹</sup>30</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?w=900&q=80" alt="Vegetable Maggi">
+          <div class="item-info">
+            <div class="item-name">Vegetable Maggi</div>
+            <div class="item-desc">Loaded with fresh veggies</div>
+            <div class="item-price"><sup>₹</sup>35</div>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1633337474564-1d9478ca4e2e?w=900&q=80" alt="Cheese Maggi">
+          <div class="item-info">
+            <div class="item-name">Cheese Maggi</div>
+            <div class="item-desc">Smothered in melted cheese</div>
+            <div class="item-price"><sup>₹</sup>45</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="tagline">Made fresh, served hot. Comfort in every bite.</div>
+      <div class="badge">A Favourite Since Day One</div>
+    </div>
+  </div>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+</div>
+
+<script>
+  const slides   = Array.from(document.querySelectorAll('.slide'));
+  const bar      = document.getElementById('progressBar');
+  const flash    = document.getElementById('catFlash');
+  const flashTxt = document.getElementById('catFlashText');
+  let current = 0;
+  let timer   = null;
+
+  function resetItems(slide) {
+    slide.querySelectorAll('.item-card').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+  }
+
+  function startProgress(dur) {
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      bar.style.transition = `width ${dur}ms linear`;
+      bar.style.width = '100%';
+    }));
+  }
+
+  function goTo(nextIndex) {
+    const prev = slides[current];
+    const next = slides[nextIndex];
+    const dur  = parseInt(next.dataset.time);
+
+    /* Exit current */
+    prev.classList.remove('active');
+    prev.classList.add('exiting');
+    prev.addEventListener('animationend', () => {
+      prev.classList.remove('exiting');
+    }, { once: true });
+
+    /* Flash category name */
+    flashTxt.textContent = next.dataset.cat;
+    flash.classList.remove('show');
+    void flash.offsetWidth;
+    flash.classList.add('show');
+
+    /* Enter next after a beat */
+    setTimeout(() => {
+      current = nextIndex;
+      resetItems(next);
+      next.classList.add('entering');
+      next.addEventListener('animationend', () => {
+        next.classList.remove('entering');
+        next.classList.add('active');
+      }, { once: true });
+
+      startProgress(dur);
+      clearTimeout(timer);
+      timer = setTimeout(() => goTo((current + 1) % slides.length), dur);
+    }, 220);
+  }
+
+  /* Boot first slide */
+  const firstDur = parseInt(slides[0].dataset.time);
+  startProgress(firstDur);
+  timer = setTimeout(() => goTo(1), firstDur);
+</script>
+</body>
+</html>
