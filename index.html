@@ -472,7 +472,15 @@ html, body {
       activateScene(current);
     }, 680);
   }
-
+document.addEventListener('keydown', e => {
+  if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+});
   // Boot
   loadScene(scenes[0]);
   requestAnimationFrame(() => requestAnimationFrame(() => {
