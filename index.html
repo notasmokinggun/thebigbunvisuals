@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Big Bun TV</title>
+<title>Joy Cafe TV</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,8 +27,6 @@ html, body {
   max-height: 100vh; max-width: 177.78vh;
   position: relative; overflow: hidden; background: var(--bg);
 }
-
-/* GRAIN */
 .tv::after {
   content: ''; position: absolute; inset: 0; z-index: 1000; pointer-events: none;
   opacity: 0.04;
@@ -36,25 +34,15 @@ html, body {
   background-size: 150px 150px;
 }
 
-/* ── CATEGORY FLASH ── */
 .cat-flash {
   position: absolute; inset: 0; z-index: 900;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  background: var(--red);
-  pointer-events: none;
+  background: var(--red); pointer-events: none;
   clip-path: inset(0 100% 0 0);
 }
 .cat-flash.show { animation: flashWipe 1s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-.cat-flash-sub {
-  font-size: 1.6vw; letter-spacing: 0.45em; color: rgba(255,255,255,0.45);
-  text-transform: uppercase; margin-bottom: 0.8vw;
-}
-.cat-flash-text {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 16vw; color: #fff; line-height: 0.88;
-  text-align: center; text-transform: uppercase;
-  -webkit-text-stroke: 2px rgba(255,255,255,0.15);
-}
+.cat-flash-sub { font-size: 1.6vw; letter-spacing: 0.45em; color: rgba(255,255,255,0.45); text-transform: uppercase; margin-bottom: 0.8vw; }
+.cat-flash-text { font-family: 'Bebas Neue', sans-serif; font-size: 16vw; color: #fff; line-height: 0.88; text-align: center; text-transform: uppercase; -webkit-text-stroke: 2px rgba(255,255,255,0.15); }
 @keyframes flashWipe {
   0%   { clip-path: inset(0 100% 0 0); }
   28%  { clip-path: inset(0 0% 0 0); }
@@ -62,157 +50,107 @@ html, body {
   100% { clip-path: inset(0 0 0 100%); }
 }
 
-/* ── SCENE ── */
-.scene {
-  position: absolute; inset: 0;
-  display: none; flex-direction: column;
-  background: var(--bg); overflow: hidden;
-}
+.scene { position: absolute; inset: 0; display: none; flex-direction: column; background: var(--bg); overflow: hidden; }
 .scene.active { display: flex; }
 
-/* ── HEADER ── */
-.scene-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 2.2vw 4vw 1.4vw;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0; position: relative; z-index: 10;
-}
+.scene-header { display: flex; align-items: center; justify-content: space-between; padding: 2.2vw 4vw 1.4vw; border-bottom: 1px solid var(--border); flex-shrink: 0; position: relative; z-index: 10; }
 .header-brand { font-family: 'Bebas Neue', sans-serif; font-size: 2.6vw; letter-spacing: 0.05em; }
 .header-brand em { color: var(--yellow); font-style: normal; }
 .header-cat { font-family: 'Bebas Neue', sans-serif; font-size: 2.6vw; color: var(--red); letter-spacing: 0.1em; }
 .header-tag { font-size: 1.1vw; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
 
-/* ── GRID ── */
-.items-grid {
-  flex: 1; display: flex; align-items: stretch;
-  padding: 2vw 3.5vw 2.5vw; gap: 2vw; overflow: hidden;
-}
+.items-grid { flex: 1; display: flex; align-items: stretch; padding: 2vw 3.5vw 2.5vw; gap: 2vw; overflow: hidden; }
 
-/* ── CARD BASE ── */
 .item-card {
-  flex: 1;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  display: flex; flex-direction: column;
+  flex: 1; background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 16px; display: flex; flex-direction: column;
   overflow: hidden; position: relative;
   opacity: 0;
 }
 
-/* ── CORNER KEYFRAMES — long, dramatic, full-diagonal travel ── */
+.item-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--yellow); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.45s 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.item-card.landed::before { transform: scaleX(1); }
+
 @keyframes fromTopLeft {
-  0%   { opacity: 0; transform: translate(-160vw, -160vh) scale(0.25) rotate(-12deg); }
-  55%  { opacity: 1; transform: translate(3vw, 3vh) scale(1.09) rotate(1.5deg); }
-  72%  { transform: translate(-1.2vw, -1.2vh) scale(0.96) rotate(-0.8deg); }
-  85%  { transform: translate(0.6vw, 0.6vh) scale(1.03) rotate(0.4deg); }
-  93%  { transform: translate(-0.2vw, -0.2vh) scale(0.99) rotate(-0.1deg); }
-  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+  0%   { opacity: 0; transform: translate(-130vw, -130vh) scale(0.2) rotate(-14deg); }
+  50%  { opacity: 1; transform: translate(2.5vw, 2.5vh) scale(1.12) rotate(2deg); }
+  68%  { transform: translate(-1vw, -1vh) scale(0.97) rotate(-0.8deg); }
+  82%  { transform: translate(0.4vw, 0.4vh) scale(1.02) rotate(0.3deg); }
+  92%  { transform: translate(-0.1vw, -0.1vh) scale(0.99); }
+  100% { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
 }
 @keyframes fromTopRight {
-  0%   { opacity: 0; transform: translate(160vw, -160vh) scale(0.25) rotate(12deg); }
-  55%  { opacity: 1; transform: translate(-3vw, 3vh) scale(1.09) rotate(-1.5deg); }
-  72%  { transform: translate(1.2vw, -1.2vh) scale(0.96) rotate(0.8deg); }
-  85%  { transform: translate(-0.6vw, 0.6vh) scale(1.03) rotate(-0.4deg); }
-  93%  { transform: translate(0.2vw, -0.2vh) scale(0.99) rotate(0.1deg); }
-  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+  0%   { opacity: 0; transform: translate(130vw, -130vh) scale(0.2) rotate(14deg); }
+  50%  { opacity: 1; transform: translate(-2.5vw, 2.5vh) scale(1.12) rotate(-2deg); }
+  68%  { transform: translate(1vw, -1vh) scale(0.97) rotate(0.8deg); }
+  82%  { transform: translate(-0.4vw, 0.4vh) scale(1.02) rotate(-0.3deg); }
+  92%  { transform: translate(0.1vw, -0.1vh) scale(0.99); }
+  100% { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
 }
 @keyframes fromBottomLeft {
-  0%   { opacity: 0; transform: translate(-160vw, 160vh) scale(0.25) rotate(12deg); }
-  55%  { opacity: 1; transform: translate(3vw, -3vh) scale(1.09) rotate(-1.5deg); }
-  72%  { transform: translate(-1.2vw, 1.2vh) scale(0.96) rotate(0.8deg); }
-  85%  { transform: translate(0.6vw, -0.6vh) scale(1.03) rotate(-0.4deg); }
-  93%  { transform: translate(-0.2vw, 0.2vh) scale(0.99) rotate(0.1deg); }
-  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+  0%   { opacity: 0; transform: translate(-130vw, 130vh) scale(0.2) rotate(14deg); }
+  50%  { opacity: 1; transform: translate(2.5vw, -2.5vh) scale(1.12) rotate(-2deg); }
+  68%  { transform: translate(-1vw, 1vh) scale(0.97) rotate(0.8deg); }
+  82%  { transform: translate(0.4vw, -0.4vh) scale(1.02) rotate(-0.3deg); }
+  92%  { transform: translate(-0.1vw, 0.1vh) scale(0.99); }
+  100% { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
 }
 @keyframes fromBottomRight {
-  0%   { opacity: 0; transform: translate(160vw, 160vh) scale(0.25) rotate(-12deg); }
-  55%  { opacity: 1; transform: translate(-3vw, -3vh) scale(1.09) rotate(1.5deg); }
-  72%  { transform: translate(1.2vw, 1.2vh) scale(0.96) rotate(-0.8deg); }
-  85%  { transform: translate(-0.6vw, -0.6vh) scale(1.03) rotate(0.4deg); }
-  93%  { transform: translate(0.2vw, 0.2vh) scale(0.99) rotate(-0.1deg); }
-  100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+  0%   { opacity: 0; transform: translate(130vw, 130vh) scale(0.2) rotate(-14deg); }
+  50%  { opacity: 1; transform: translate(-2.5vw, -2.5vh) scale(1.12) rotate(2deg); }
+  68%  { transform: translate(1vw, 1vh) scale(0.97) rotate(-0.8deg); }
+  82%  { transform: translate(-0.4vw, -0.4vh) scale(1.02) rotate(0.3deg); }
+  92%  { transform: translate(0.1vw, 0.1vh) scale(0.99); }
+  100% { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
 }
 
-.from-tl { animation: fromTopLeft    1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.from-tr { animation: fromTopRight   1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.from-bl { animation: fromBottomLeft 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.from-br { animation: fromBottomRight 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.from-tl { animation: fromTopLeft     1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.from-tr { animation: fromTopRight    1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.from-bl { animation: fromBottomLeft  1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.from-br { animation: fromBottomRight 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* Yellow accent bar after landing */
-.item-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0;
-  height: 4px; background: var(--yellow); opacity: 0;
-  transition: opacity 0.5s 1.1s;
-}
-.item-card.from-tl::before,
-.item-card.from-tr::before,
-.item-card.from-bl::before,
-.item-card.from-br::before { opacity: 1; }
-
-/* ── IMAGE AREA ── */
-.card-img-wrap {
-  flex: 1; position: relative; overflow: hidden; min-height: 0;
-}
-.card-bg-blur {
-  position: absolute; inset: -20px;
-  background-size: cover; background-position: center;
-  filter: blur(30px) brightness(0.28) saturate(1.8);
-  transform: scale(1.25);
-}
-.card-img-wrap::after {
-  content: ''; position: absolute; inset: 0; z-index: 2;
-  background: radial-gradient(ellipse at 50% 55%, transparent 25%, rgba(10,10,10,0.6) 100%);
-}
+.card-img-wrap { flex: 1; position: relative; overflow: hidden; min-height: 0; }
+.card-bg-blur { position: absolute; inset: -20px; background-size: cover; background-position: center; filter: blur(30px) brightness(0.28) saturate(1.8); transform: scale(1.25); }
+.card-img-wrap::after { content: ''; position: absolute; inset: 0; z-index: 2; background: radial-gradient(ellipse at 50% 55%, transparent 25%, rgba(10,10,10,0.6) 100%); }
 .card-img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: contain; padding: 7% 9%;
-  z-index: 3;
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; padding: 7% 9%; z-index: 3;
   filter: drop-shadow(0 16px 36px rgba(0,0,0,0.9));
-  opacity: 0; transform: scale(0.8) translateY(10%);
-  transition: opacity 0.6s 0.9s ease, transform 0.7s 0.9s cubic-bezier(0.22,1,0.36,1);
+  opacity: 0; transform: scale(0.75) translateY(12%);
+  transition: opacity 0.55s 0.5s ease, transform 0.7s 0.5s cubic-bezier(0.22,1,0.36,1);
 }
-.item-card.from-tl .card-img,
-.item-card.from-tr .card-img,
-.item-card.from-bl .card-img,
-.item-card.from-br .card-img { opacity: 1; transform: scale(1) translateY(0); }
+.item-card.landed .card-img { opacity: 1; transform: scale(1) translateY(0); }
 
-/* ── CARD FOOTER ── */
 .card-footer {
-  padding: 1.2vw 1.6vw 1.4vw;
-  position: relative; z-index: 5;
+  padding: 1.2vw 1.6vw 1.4vw; position: relative; z-index: 5;
   border-top: 1px solid var(--border);
   display: flex; align-items: flex-end; justify-content: space-between; gap: 1vw;
   background: linear-gradient(to bottom, rgba(20,20,20,0.5), rgba(8,8,8,0.95));
 }
-.card-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(1.6vw, 2.4vw, 3.2vw);
-  line-height: 1; text-transform: uppercase; letter-spacing: 0.03em;
-}
+.card-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.6vw, 2.4vw, 3.2vw); line-height: 1; text-transform: uppercase; letter-spacing: 0.03em; }
 .card-desc { font-size: 1.1vw; color: var(--muted); line-height: 1.3; margin-top: 0.3vw; }
 .card-price { display: flex; align-items: baseline; gap: 0.2vw; flex-shrink: 0; }
 .price-sym { font-size: 1.5vw; color: var(--muted); }
-.price-val {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 4vw; color: var(--yellow); line-height: 1;
+.price-val { font-family: 'Bebas Neue', sans-serif; font-size: 4vw; color: var(--yellow); line-height: 1; }
+
+@keyframes priceSlam {
+  0%   { transform: scale(2.8); opacity: 0; color: #fff; }
+  45%  { transform: scale(1.18); opacity: 1; color: #fff; }
+  72%  { transform: scale(0.94); }
+  100% { transform: scale(1); color: var(--yellow); }
+}
+.item-card.landed .price-val {
+  animation: priceSlam 0.6s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* ── PROGRESS ── */
-.progress-wrap {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 5px; background: rgba(255,255,255,0.05); z-index: 800;
-}
+.progress-wrap { position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: rgba(255,255,255,0.05); z-index: 800; }
 .progress-fill { height: 100%; background: var(--yellow); width: 0; }
 
-/* SCANLINES */
-.scanlines {
-  position: absolute; inset: 0; z-index: 999; pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom, transparent 0px, transparent 3px,
-    rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px
-  );
-}
+.scanlines { position: absolute; inset: 0; z-index: 999; pointer-events: none; background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px); }
 </style>
 </head>
 <body>
@@ -224,168 +162,124 @@ html, body {
   </div>
 
   <!-- HOT DRINKS -->
-  <div class="scene active" data-cat="Hot Drinks" data-dur="7000">
+  <div class="scene active" data-cat="Hot Drinks">
     <div class="scene-header">
-      <div class="header-brand">The <em>Big</em> Bun</div>
+      <div class="header-brand"><em>Joy Cafe</em></div>
       <div class="header-cat">Hot Drinks</div>
       <div class="header-tag">Sip Something Warm</div>
     </div>
     <div class="items-grid">
       <div class="item-card" data-img="masalatea.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Masala Tea"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Masala Tea</div><div class="card-desc">Spiced chai, warming & bold.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">18</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Masala Tea</div><div class="card-desc">Spiced chai, warming & bold.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">18</span></div></div>
       </div>
       <div class="item-card" data-img="tea.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Tea"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Tea</div><div class="card-desc">Classic light brew.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">15</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Tea</div><div class="card-desc">Classic light brew.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">15</span></div></div>
       </div>
       <div class="item-card" data-img="coffee.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Coffee"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Coffee</div><div class="card-desc">Rich & freshly brewed.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">20</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Coffee</div><div class="card-desc">Rich & freshly brewed.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">20</span></div></div>
       </div>
     </div>
   </div>
 
   <!-- COLD DRINKS -->
-  <div class="scene" data-cat="Cold Drinks" data-dur="8000">
+  <div class="scene" data-cat="Cold Drinks">
     <div class="scene-header">
-      <div class="header-brand">The <em>Big</em> Bun</div>
+      <div class="header-brand"><em>Joy Cafe</em></div>
       <div class="header-cat">Cold Drinks</div>
       <div class="header-tag">Chill Out, Sip Up</div>
     </div>
     <div class="items-grid">
+      <div class="item-card" data-img="coldrink.png">
+        <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Cold Drink"></div>
+        <div class="card-footer"><div><div class="card-name">Cold Drink</div><div class="card-desc">Classic Coca-Cola.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">20</span></div></div>
+      </div>
       <div class="item-card" data-img="mintmojito.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Mint Mojito"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Mint Mojito</div><div class="card-desc">Fresh mint, lime & soda.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Mint Mojito</div><div class="card-desc">Fresh mint, lime & soda.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div></div>
       </div>
       <div class="item-card" data-img="beetrootbliz.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Beetroot Bliz"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Beetroot Bliz</div><div class="card-desc">Refreshing & natural.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Beetroot Bliz</div><div class="card-desc">Refreshing & natural.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div></div>
       </div>
       <div class="item-card" data-img="coldcoffee.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Cold Coffee"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Cold Coffee</div><div class="card-desc">Chilled, creamy coffee blend.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">60</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Cold Coffee</div><div class="card-desc">Chilled, creamy coffee blend.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">60</span></div></div>
       </div>
       <div class="item-card" data-img="chocolatefrappe.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Chocolate Frappe"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Chocolate Frappe</div><div class="card-desc">Rich chocolate frozen delight.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">90</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Chocolate Frappe</div><div class="card-desc">Rich chocolate frozen delight.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">90</span></div></div>
       </div>
     </div>
   </div>
 
   <!-- BURGERS -->
-  <div class="scene" data-cat="Burgers" data-dur="7000">
+  <div class="scene" data-cat="Burgers">
     <div class="scene-header">
-      <div class="header-brand">The <em>Big</em> Bun</div>
+      <div class="header-brand"><em>Joy Cafe</em></div>
       <div class="header-cat">Burgers</div>
       <div class="header-tag">Big Bun Energy</div>
     </div>
     <div class="items-grid">
       <div class="item-card" data-img="vegclassicburger.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Veg Classic"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Veg Classic</div><div class="card-desc">Crispy patty, fresh veggies, signature sauce.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Veg Classic</div><div class="card-desc">Crispy patty, fresh veggies, signature sauce.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div></div>
       </div>
       <div class="item-card" data-img="vegbigclassicburger.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Veg Big Classic"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Veg Big Classic</div><div class="card-desc">Double the patty, double the satisfaction.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">60</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Veg Big Classic</div><div class="card-desc">Double the patty, double the satisfaction.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">60</span></div></div>
       </div>
     </div>
   </div>
 
   <!-- SIDES -->
-  <div class="scene" data-cat="Sides" data-dur="8000">
+  <div class="scene" data-cat="Sides">
     <div class="scene-header">
-      <div class="header-brand">The <em>Big</em> Bun</div>
+      <div class="header-brand"><em>Joy Cafe</em></div>
       <div class="header-cat">Sides</div>
       <div class="header-tag">The Perfect Plus-One</div>
     </div>
     <div class="items-grid">
       <div class="item-card" data-img="saltedfrenchfries.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Salted Fries"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Salted Fries</div><div class="card-desc">Classic crispy & golden.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">35</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Salted Fries</div><div class="card-desc">Classic crispy & golden.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">35</span></div></div>
       </div>
       <div class="item-card" data-img="periperifrenchfries.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Peri Peri Fries"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Peri Peri Fries</div><div class="card-desc">Spiced with bold peri peri.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">40</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Peri Peri Fries</div><div class="card-desc">Spiced with bold peri peri.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">40</span></div></div>
       </div>
       <div class="item-card" data-img="belgianfrenchfries.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Belgian Fries"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Belgian Fries</div><div class="card-desc">Thicker cut, authentic style.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Belgian Fries</div><div class="card-desc">Thicker cut, authentic style.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">45</span></div></div>
       </div>
       <div class="item-card" data-img="cheeseslice.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Cheese Slice"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Cheese Slice</div><div class="card-desc">Extra melty goodness.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">12</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Cheese Slice</div><div class="card-desc">Extra melty goodness.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">12</span></div></div>
       </div>
     </div>
   </div>
 
   <!-- MAGGI -->
-  <div class="scene" data-cat="Maggi" data-dur="7000">
+  <div class="scene" data-cat="Maggi">
     <div class="scene-header">
-      <div class="header-brand">The <em>Big</em> Bun</div>
+      <div class="header-brand"><em>Joy Cafe</em></div>
       <div class="header-cat">Maggi</div>
       <div class="header-tag">Nostalgia in a Bowl</div>
     </div>
     <div class="items-grid">
       <div class="item-card" data-img="plainmaggi.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Plain Maggi"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Plain Maggi</div><div class="card-desc">Classic, simple & nostalgic.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">30</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Plain Maggi</div><div class="card-desc">Classic, simple & nostalgic.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">30</span></div></div>
       </div>
       <div class="item-card" data-img="vegetablemaggi.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Veg Maggi"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Veg Maggi</div><div class="card-desc">Loaded with fresh veggies.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">35</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Veg Maggi</div><div class="card-desc">Loaded with fresh veggies.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">35</span></div></div>
       </div>
       <div class="item-card" data-img="cheesemaggi.png">
         <div class="card-img-wrap"><div class="card-bg-blur"></div><img class="card-img" alt="Cheese Maggi"></div>
-        <div class="card-footer">
-          <div><div class="card-name">Cheese Maggi</div><div class="card-desc">Smothered in melted cheese.</div></div>
-          <div class="card-price"><span class="price-sym">₹</span><span class="price-val">40</span></div>
-        </div>
+        <div class="card-footer"><div><div class="card-name">Cheese Maggi</div><div class="card-desc">Smothered in melted cheese.</div></div><div class="card-price"><span class="price-sym">₹</span><span class="price-val">40</span></div></div>
       </div>
     </div>
   </div>
@@ -394,20 +288,17 @@ html, body {
 </div>
 
 <script>
-  const REPO = "https://raw.githubusercontent.com/notasmokinggun/thebigbunvisuals/main/";
-  const ALL_CORNERS = ['from-tl', 'from-tr', 'from-bl', 'from-br'];
+  const REPO       = "https://raw.githubusercontent.com/notasmokinggun/thebigbunvisuals/main/";
+  const ALL_CORNERS = ['from-tl','from-tr','from-bl','from-br'];
+  const cornerSeq   = ['from-tl','from-br','from-tr','from-bl','from-tl','from-br'];
 
-  // Corner assignment per count — diagonally opposed pairs feel most dramatic
-  const cornerMaps = {
-    1: ['from-tl'],
-    2: ['from-tl', 'from-br'],
-    3: ['from-tl', 'from-br', 'from-tr'],
-    4: ['from-tl', 'from-br', 'from-tr', 'from-bl'],
-  };
+  const ENTRY_MS = 1100;  // fly-in animation duration
+  const HOLD_MS  = 1400;  // pause after landing before next card fires
+  const FINAL_MS = 2500;  // hold after all cards are out before scene change
 
-  const scenes = Array.from(document.querySelectorAll('.scene'));
-  const catFlash = document.getElementById('catFlash');
-  const catFlashTxt = document.getElementById('catFlashText');
+  const scenes       = Array.from(document.querySelectorAll('.scene'));
+  const catFlash     = document.getElementById('catFlash');
+  const catFlashTxt  = document.getElementById('catFlashText');
   const progressFill = document.getElementById('progressFill');
   let current = 0;
 
@@ -419,24 +310,38 @@ html, body {
     });
   }
 
-  function fireCards(scene) {
+  function fireCardsSequentially(scene, onAllDone) {
     const cards = Array.from(scene.querySelectorAll('.item-card'));
-    const n = Math.min(cards.length, 4);
-    const map = cornerMaps[n] || ALL_CORNERS;
 
-    cards.forEach((card, i) => {
-      // Strip previous corner classes & reset opacity
+    // Reset all cards to invisible
+    cards.forEach(card => {
       ALL_CORNERS.forEach(c => card.classList.remove(c));
-      card.style.animationDelay = '';
+      card.classList.remove('landed');
       card.style.opacity = '0';
-      void card.offsetWidth; // force reflow to retrigger animation
+      void card.offsetWidth;
     });
 
-    // All cards launch simultaneously — no stagger, full impact
-    cards.forEach((card, i) => {
-      card.style.animationDelay = '0ms';
-      card.classList.add(map[i % map.length]);
-    });
+    let i = 0;
+
+    function next() {
+      if (i >= cards.length) {
+        if (onAllDone) setTimeout(onAllDone, FINAL_MS);
+        return;
+      }
+
+      const card = cards[i];
+      card.style.opacity = '';
+      card.classList.add(cornerSeq[i % cornerSeq.length]);
+
+      // Mark as landed after entry completes
+      setTimeout(() => {
+        card.classList.add('landed');
+        // Wait, then fire the next one
+        setTimeout(() => { i++; next(); }, HOLD_MS);
+      }, ENTRY_MS);
+    }
+
+    next();
   }
 
   function startProgress(dur) {
@@ -450,12 +355,17 @@ html, body {
 
   function activateScene(index) {
     const scene = scenes[index];
-    const dur = parseInt(scene.dataset.dur);
+    const n = scene.querySelectorAll('.item-card').length;
+    const totalDur = n * (ENTRY_MS + HOLD_MS) + FINAL_MS;
+
     loadScene(scene);
     scene.classList.add('active');
-    requestAnimationFrame(() => requestAnimationFrame(() => fireCards(scene)));
-    startProgress(dur);
-    setTimeout(() => goToNext(), dur);
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      fireCardsSequentially(scene, () => goToNext());
+    }));
+
+    startProgress(totalDur);
   }
 
   function goToNext() {
@@ -467,28 +377,19 @@ html, body {
     void catFlash.offsetWidth;
     catFlash.classList.add('show');
 
-    setTimeout(() => {
-      current = nextIndex;
-      activateScene(current);
-    }, 680);
+    setTimeout(() => { current = nextIndex; activateScene(current); }, 680);
   }
-document.addEventListener('keydown', e => {
-  if (e.key === 'f' || e.key === 'F') {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else {
-      document.exitFullscreen();
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
     }
-  }
-});
-  // Boot
+    if (e.key === 'ArrowRight') goToNext();
+  });
+
   loadScene(scenes[0]);
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    fireCards(scenes[0]);
-    const dur = parseInt(scenes[0].dataset.dur);
-    startProgress(dur);
-    setTimeout(() => goToNext(), dur);
-  }));
+  requestAnimationFrame(() => requestAnimationFrame(() => activateScene(0)));
 </script>
 </body>
 </html>
